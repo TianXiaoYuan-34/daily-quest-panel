@@ -1,0 +1,11 @@
+{
+  "name": "Daily Quest Panel",
+  "short_name": "Daily Quest",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "description": "A private, game-style daily quest and check-in panel.",
+  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
