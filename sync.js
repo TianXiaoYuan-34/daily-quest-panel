@@ -8,8 +8,20 @@
 
   function addStyles(){
     const style=document.createElement('style');
-    style.textContent=`.sync-panel{border-color:#31536f;background:linear-gradient(145deg,#0e1b2d,#101827)}.sync-line{display:flex;justify-content:space-between;gap:10px;align-items:center}.sync-state{font-size:11px;color:#8fa2ba;line-height:1.45}.sync-ok{color:#46e6a8}.sync-warn{color:#ffb454}.sync-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.sync-actions button{min-height:40px}.sync-user{font:700 11px ui-monospace,SFMono-Regular,Menlo,monospace;color:#61d9ff}`;
+    style.textContent=`.sync-panel{border-color:#31536f;background:linear-gradient(145deg,#0e1b2d,#101827)}.sync-line{display:flex;justify-content:space-between;gap:10px;align-items:center}.sync-state{font-size:11px;color:#8fa2ba;line-height:1.45}.sync-ok{color:#46e6a8}.sync-warn{color:#ffb454}.sync-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.sync-actions button{min-height:40px}.sync-user{font:700 11px ui-monospace,SFMono-Regular,Menlo,monospace;color:#61d9ff}.boss-native-link{position:absolute;inset:0;z-index:20;border-radius:14px;text-indent:-9999px;overflow:hidden}`;
     document.head.appendChild(style);
+  }
+
+  function fixBossLink(){
+    const grade=document.getElementById('bossEntry')||document.querySelector('.grade');
+    if(!grade || grade.querySelector('.boss-native-link')) return;
+    grade.style.position='relative';
+    const a=document.createElement('a');
+    a.className='boss-native-link';
+    a.href='./boss.html';
+    a.setAttribute('aria-label','打开 BOSS CODEX');
+    a.textContent='BOSS CODEX';
+    grade.appendChild(a);
   }
 
   function addPanel(){
@@ -92,7 +104,7 @@
   }
 
   async function init(){
-    addStyles(); addPanel();
+    addStyles(); fixBossLink(); addPanel();
     try{
       const sdk=await loadSupabase();
       client=sdk.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,detectSessionInUrl:true,autoRefreshToken:true}});
