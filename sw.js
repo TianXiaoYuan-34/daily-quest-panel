@@ -1,5 +1,5 @@
-const CACHE='daily-quest-v2';
-const ASSETS=['./index.html','./manifest.webmanifest','./icon.svg','./sync.js'];
+const CACHE='daily-quest-v3';
+const ASSETS=['./index.html','./boss.html','./manifest.webmanifest','./icon.svg','./sync.js'];
 
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));
@@ -11,19 +11,28 @@ self.addEventListener('activate',event=>{
   self.clients.claim();
 });
 
-async function appHtml(){
-  let response;
-  try{response=await fetch('./index.html',{cache:'no-store'});}catch(_){response=await caches.match('./index.html');}
-  if(!response)return new Response('Offline',{status:503});
-  let html=await response.text();
-  if(!html.includes('src="./sync.js"')&&!html.includes("src='./sync.js'"))html=html.replace('</body>','<script src="./sync.js"></script></body>');
-  return new Response(html,{status:200,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}});
+async function networkFirst(request,fallback){
+  try{
+    const response=await fetch(request,{cache:'no-store'});
+    if(response&&response.ok){
+      const copy=response.clone();
+      caches.open(CACHE).then(cache=>cache.put(request,copy));
+    }
+    return response;
+  }catch(_){
+    return (await caches.match(request)) || (fallback ? await caches.match(fallback) : null) || new Response('Offline',{status:503});
+  }
 }
 
 self.addEventListener('fetch',event=>{
   if(event.request.method!=='GET')return;
+  const url=new URL(event.request.url);
   if(event.request.mode==='navigate'){
-    event.respondWith(appHtml());
+    event.respondWith(networkFirst(event.request,'./index.html'));
+    return;
+  }
+  if(url.origin===self.location.origin && (url.pathname.endsWith('/sync.js') || url.pathname.endsWith('/index.html') || url.pathname.endsWith('/boss.html'))){
+    event.respondWith(networkFirst(event.request));
     return;
   }
   event.respondWith(caches.match(event.request).then(hit=>hit||fetch(event.request).then(resp=>{
