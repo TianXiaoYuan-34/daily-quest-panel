@@ -8,7 +8,7 @@
 
   function addStyles(){
     const style=document.createElement('style');
-    style.textContent=`.sync-panel{border-color:#31536f;background:linear-gradient(145deg,#0e1b2d,#101827)}.sync-line{display:flex;justify-content:space-between;gap:10px;align-items:center}.sync-state{font-size:11px;color:#8fa2ba;line-height:1.45}.sync-ok{color:#46e6a8}.sync-warn{color:#ffb454}.sync-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.sync-actions button{min-height:40px}.sync-user{font:700 11px ui-monospace,SFMono-Regular,Menlo,monospace;color:#61d9ff}.boss-native-link{position:absolute;inset:0;z-index:20;border-radius:14px;text-indent:-9999px;overflow:hidden}`;
+    style.textContent=`.sync-panel{border-color:#31536f;background:linear-gradient(145deg,#0e1b2d,#101827)}.sync-line{display:flex;justify-content:space-between;gap:10px;align-items:center}.sync-state{font-size:11px;color:#8fa2ba;line-height:1.45}.sync-ok{color:#46e6a8}.sync-warn{color:#ffb454}.sync-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.sync-actions button{min-height:40px}.sync-user{font:700 11px ui-monospace,SFMono-Regular,Menlo,monospace;color:#61d9ff}.boss-native-link{position:absolute;inset:0;z-index:20;border-radius:14px;text-indent:-9999px;overflow:hidden}.boss-button{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:#e8eef8;border:1px solid #6d5728;background:linear-gradient(145deg,#211d13,#101827);border-radius:12px;padding:12px 14px;margin-top:12px;min-height:48px}.boss-button b{color:#e8bd62}.boss-button span{font:700 11px ui-monospace,SFMono-Regular,Menlo,monospace;color:#bda35f}`;
     document.head.appendChild(style);
   }
 
@@ -30,7 +30,7 @@
     const first=main.querySelector('section.panel');
     const sec=document.createElement('section');
     sec.className='panel sync-panel'; sec.id='syncPanel';
-    sec.innerHTML=`<div class="section-title">// PRIVATE SYNC</div><div class="sync-line"><div><div class="qname">小查云同步</div><div id="syncState" class="sync-state">正在初始化登录…</div><div id="syncUser" class="sync-user"></div></div><div id="syncDot" class="tag">LOCAL</div></div><div class="sync-actions"><button id="loginBtn">使用 GitHub 登录</button><button id="syncBtn" style="display:none">立即同步</button><button id="logoutBtn" style="display:none">退出登录</button></div>`;
+    sec.innerHTML=`<div class="section-title">// PRIVATE SYNC</div><div class="sync-line"><div><div class="qname">小查云同步</div><div id="syncState" class="sync-state">正在初始化登录…</div><div id="syncUser" class="sync-user"></div></div><div id="syncDot" class="tag">LOCAL</div></div><div class="sync-actions"><button id="loginBtn">使用 GitHub 登录</button><button id="syncBtn" style="display:none">立即同步</button><button id="logoutBtn" style="display:none">退出登录</button></div><a class="boss-button" href="./boss.html"><b>😈 BOSS CODEX</b><span>七宗罪图鉴 →</span></a>`;
     first.insertAdjacentElement('afterend',sec);
     document.getElementById('loginBtn').onclick=login;
     document.getElementById('logoutBtn').onclick=logout;
